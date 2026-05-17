@@ -1,2 +1,2 @@
-# oscpGuide
+# 💪 Try Harder 💪
 
