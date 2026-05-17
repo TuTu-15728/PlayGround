@@ -1,5 +1,9 @@
+| ![Sea Logo](/Assets/Images/sea.png) | <br><br><br><br><br><br>Machine Name - Sea<br>Difficulty - Easy<br>Type - Linux |
+| :---------------------------------- | :------------------------------------------------------------------------------ |
 
-Nmap Scan Result - 
+# ⚝ Initial Enumeration
+
+**Nmap Scan Result** - 
 
 ```
 $ sudo nmap -sCV -p- 10.129.34.215
