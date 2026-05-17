@@ -189,7 +189,7 @@ payload.php
 $ zip -r payload.zip payload
 ```
 
-That's how i got my payload.zip file. Our 'payload.php' file is inside a folder called 'payload' and we zipped that folder. Yes, you can use different names.
+That's how I got my payload.zip file. Our 'payload.php' file is inside a folder called 'payload' and we zipped that folder. Yes, you can use different names.
 
 Now, from the Exploit - 
 ```
@@ -207,16 +207,17 @@ We have to host the 'payload.js' file and yes 'payload.zip' keep it in the same 
 
 During the execution of the payload.js file from the target, the script will auto download our payload.zip file. Check the above payload.js content again.
 
-Now, let's focus on uploading our payload. Back to the contact.php page - 
+Now, let's focus on uploading our payload. I have started a http server - 
+
+![http server 1](/Assets/Images/sea-3.png)
+
+Back to the contact.php page - 
 
 ![Uploading Payload](/Assets/Images/sea-2.png)
 
 After submit please verify that it's submitted (I had to restart the machine BTW).
 
-Before - 
-![Uploading 1](/Assets/Images/sea-3.png)
-
-After -
+After a few seconds -
 ![Upload Payload - 2](/Assets/Images/sea-4.png)
 
 As we expected, first our js file and then zip file through 'payload.js'.
