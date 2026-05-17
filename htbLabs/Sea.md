@@ -1,5 +1,5 @@
-| ![Sea Logo](/Assets/Images/sea.png) | <br><br><br><br><br>Machine Name - Sea<br>Difficulty - Easy<br>Type - Linux |
-| :---------------------------------- | :-------------------------------------------------------------------------- |
+| ![Sea Logo](/Assets/Images/sea.png) | <br><br>Machine Name - Sea<br>Difficulty - Easy<br>Type - Linux |
+| :---------------------------------- | :-------------------------------------------------------------- |
 
 # ⚝ Initial Enumeration
 
