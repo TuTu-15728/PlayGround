@@ -13,10 +13,7 @@ $ echo 'MACHINE_IP sea.htb' | sudo tee -a /etc/hosts
 ```
 $ sudo nmap -sCV -p- sea.htb
 
-Starting Nmap 7.99 ( https://nmap.org ) at 2026-05-17 12:50 +0100
 Nmap scan report for 10.129.34.215
-Host is up (0.039s latency).
-Not shown: 65533 closed tcp ports (reset)
 
 PORT   STATE SERVICE VERSION
 
