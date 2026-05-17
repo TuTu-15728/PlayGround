@@ -293,7 +293,7 @@ $ ssh amay@sea.htb -L 8080:127.0.0.1:8080
 ```
 
 Result - 
-![Port 8080](/Assets/images/sea-9.png)
+![Port 8080](/Assets/Images/sea-9.png)
 
 I captured the request in Burp - 
 ```
