@@ -5,7 +5,7 @@
 $ echo 'MACHINE_IP nibbles.htb' | sudo tee -a /etc/hosts
 ```
 
-# ⚝ Enumeration
+# ⭐ Enumeration
 
 Let's Start with a `nmap` scan - 
 
