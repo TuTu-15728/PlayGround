@@ -195,11 +195,7 @@ Well, we got the access. Now let's find where we can upload our php reverse shel
 
 ![File Upload](/Assets/Images/nibbles-3.png)
 
-```
-Note : At this moment we can simply use the above exploit i.e. from exploit-db CVE-2015-6967 as we get our username and password.
-
-Otherwise, let's break it down and do it manually probably we will take some reference if it's require.
-```
+👉 Note: At this moment we can simply use the above exploit i.e. from exploit-db CVE-2015-6967 as we get our username and password. Otherwise, let's break it down and do it manually probably we will take some reference if it's require.
 
 I used this excellent php reverse shell file from - https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php and yes changed the IP and PORT as intended.
 
