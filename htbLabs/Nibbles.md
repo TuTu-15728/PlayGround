@@ -183,9 +183,7 @@ We need correct password to login and also for the exploit to run. From the webs
 
 Our next option, we have to note-down all important keywords we can get from the website. And, luckily `nibbles` is the password for `admin` user (Keep in mind to restart the machine for every failed attempt !!!). Well, that was an easy password.
 
-```
-Tips: Sometimes the password we are looking maybe not in the wordlist used during the bruteforcing attack. We can generate a custom wordlist by using the keywords mentioned in the website (e.g. names, numbers, etc.). 
-```
+👉 Note: Sometimes the password we are looking maybe not in the wordlist used during the bruteforcing attack. We can generate a custom wordlist by using the keywords mentioned in the website (e.g. names, numbers, etc.).
 
 # ⚝ Exploitation
 
