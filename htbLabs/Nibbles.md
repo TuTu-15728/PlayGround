@@ -118,6 +118,7 @@ Let's try to get some more information -
 "http://nibbles.htb/nibbleblog/admin/" shows a few directories and files but not getting any clue from there.
 
 Found the login page (Require - Username and Password) -
+
 ![Login Page](/Assets/Images/nibbles-1.png)
 
 Further scan with gobuster reveals -
@@ -200,6 +201,7 @@ Well, we got the access. Now let's find where we can upload our php reverse shel
 I used this excellent php reverse shell file from - https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php and yes changed the IP and PORT as intended.
 
 After uploading our payload - 
+
 ![Warnings](/Assets/Images/nibbles-4.png)
 
 Now, a few things here - 
