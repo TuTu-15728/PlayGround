@@ -12,5 +12,5 @@
 # 📜 TryHackMe
 
 ## 😌 Easy Machines :
-- [Anonforce](/thmLabs/Anonforce)
+- [Anonforce](/thmLabs/Anonforce.md)
 - 
