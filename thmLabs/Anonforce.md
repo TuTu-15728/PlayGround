@@ -4,7 +4,7 @@
 Link - "https://tryhackme.com/room/bsidesgtanonforce"
 
 ```
-echo 'MACHINE_IP anonyforce.thm' | sudo tee -a /etc/hosts
+echo 'MACHINE_IP anonforce.thm' | sudo tee -a /etc/hosts
 ```
 
 # ⚝ Enumeration
