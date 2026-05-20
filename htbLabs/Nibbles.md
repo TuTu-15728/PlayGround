@@ -237,6 +237,7 @@ Explanation -
 We have to keep in mind when executing the file mention the full path as shown in the `sudo -l` output or simply run ` sudo ./monitor.sh` inside the `/stuff` so that we can execute the intended file.
 
 ![Root flag](/Assets/Images/nibbles-9.png)
+
 The `-p` flag prevents bash from dropping privileges, spawning a root shell. Check here -  (https://gtfobins.org/gtfobins/bash/).
 
 Finally, we can retrieve our root flag.
