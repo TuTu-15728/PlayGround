@@ -222,6 +222,7 @@ We can get our first flag from user home directory -
 We can check the `personal.zip` file for further inspection. But, before that I simply ran `sudo -l` just to check for commands `nibbler` can run with root privilege.
 
 Check the image - 
+
 ![Sudo -l](/Assets/Images/nibbles-7.png)
 
 Now, we can unzip and edit the monitor.sh file inside the mentioned folder. Or, simple follow my steps - 
