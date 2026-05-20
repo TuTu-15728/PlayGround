@@ -219,6 +219,7 @@ Back to the contact.php page -
 After submit please verify that it's submitted (I had to restart the machine BTW).
 
 After a few seconds -
+
 ![Upload Payload - 2](/Assets/Images/sea-4.png)
 
 As we expected, first our js file and then zip file through 'payload.js'.
@@ -226,6 +227,7 @@ As we expected, first our js file and then zip file through 'payload.js'.
 Next, open a netcat listener on the mentioned port in payload.php file we did earlier (e.g. 4444) and try to visit out 'payload.php' which is now placed in the target web folder.
 
 Visit "http://sea.htb/themes/payload/payload.php" and check the shell - 
+
 ![Netcat Rev Shell](/Assets/Images/sea-5.png)
 
 # ⚝ Initial Access
@@ -295,6 +297,7 @@ $ ssh amay@sea.htb -L 8080:127.0.0.1:8080
 ```
 
 Result - 
+
 ![Port 8080](/Assets/Images/sea-9.png)
 
 I captured the request in Burp - 
