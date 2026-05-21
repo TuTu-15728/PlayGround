@@ -16,7 +16,9 @@ First, if you know a command, but don’t know how to use it, try the 'manual (m
 - [Level 0 - Level 1](#Level0-Level1)
 - 
 
-
+| [Level 0](#Level0)                  |     |     |
+| ----------------------------------- | --- | --- |
+| [Level 0 - Level 1](#Level0-Level1) |     |     |
 # Level0
 
 # Level0-Level1
