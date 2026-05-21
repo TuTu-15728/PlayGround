@@ -11,6 +11,7 @@ If you’ve never used the command line before, a good first read is this 'intro
 
 First, if you know a command, but don’t know how to use it, try the 'manual (man page)' by entering 'man <command>'. For example, 'man ls' to learn about the "ls" command.
 
+👉 **TIP:** Create a file for notes and passwords on your local machine. Passwords for levels are _not_ saved automatically. If you do not save them yourself, you will need to start over from bandit0.
 
 📋 **Challenges**
 
@@ -29,7 +30,7 @@ First, if you know a command, but don’t know how to use it, try the 'manual (m
 - The goal of this level is for you to log into the game using SSH. The host to which you need to connect is **bandit.labs.overthewire.org**, on port 2220. The username is **bandit0** and the password is **bandit0**. Once logged in, go to the [Level 1](https://overthewire.org/wargames/bandit/bandit1.html) page to find out how to beat Level 1.
 
 💡 **Command :**
-- ssh
+- [ssh](https://manpages.ubuntu.com/manpages/noble/man1/ssh.1.html)
 
 👨🏻‍💻 **Solution :**
 
@@ -43,7 +44,7 @@ When it shows the password prompt `bandit0@bandit.labs.overthewire.org's passwor
 
 After the above steps, we will find our shell changes to `bandit0@bandit:~$` i.e. a successful login as user `bandit0`.
 
-![bandit0](/Assets/Images/bandit0.png)
+![bandit0](/Assets/Images/banditL0.png)
 
 # Level0-Level1
 
@@ -55,13 +56,36 @@ After the above steps, we will find our shell changes to `bandit0@bandit:~$` i.e
 
 👨🏻‍💻 **Solution :**
 
+![Level 1](/Assets/Images/banditL1.png)
+
+**Bonus Commands:**
+- I used `pwd (print working directory)` command here just to check the current directory. (Although, the `~` sign between `:` and `$` was an indication that we are currently in user home directory.)
+- `ls -la` command used here to get more information about the files.
+- Finally, we can get the password for next level using `cat readme` command.
+
 # Level1-Level2
 
 🎯 **Level Goal :**
+- The password for the next level is stored in a file called **-** located in the home directory.
 
 💡 **Command :**
+- [ls](https://manpages.ubuntu.com/manpages/noble/man1/ls.1.html) , [cd](https://manpages.ubuntu.com/manpages/noble/man1/cd.1posix.html) , [cat](https://manpages.ubuntu.com/manpages/noble/man1/cat.1.html) , [file](https://manpages.ubuntu.com/manpages/noble/man1/file.1.html) , [du](https://manpages.ubuntu.com/manpages/noble/man1/du.1.html) , [find](https://manpages.ubuntu.com/manpages/noble/man1/find.1.html)
 
 👨🏻‍💻 **Solution :**
+
+Let's login as `bandit1` user with the looted password.
+
+```shell
+ssh bandit1@bandit.labs.overthewire.org -p 2220
+```
+
+![Level 2](/Assets/Images/banditL2.png)
+
+**Explanation :**
+- First, I checked the file and it's permissions using the `ls -la` command.
+- We can see a file named as `-` but we can't simply read it's content using the `cat` command. With `cat -`, the dash (`-`) is a convention meaning "read from stdin".  As you can see in the above image, I typed `hello` and the terminal returned `hello`.
+- The `^C` (Ctrl+C) terminates the command.
+- Finally, `cat ./-`  command explicitly references a file with that name in the current directory.
 
 # Level2-Level3
 
