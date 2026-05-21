@@ -12,10 +12,10 @@ If you’ve never used the command line before, a good first read is this 'intro
 First, if you know a command, but don’t know how to use it, try the 'manual (man page)' by entering 'man <command>'. For example, 'man ls' to learn about the "ls" command.
 
 📋 **Challenges**
-- [[#Level 0]]
-- [[#Level 0 - Level 1]]
+- [[#Level-0]]
+- [[#Level-0_Level-1]]
 
 
-# Level 0
+# Level-0
 
-# Level 0 - Level 1
+# Level-0_Level-1
