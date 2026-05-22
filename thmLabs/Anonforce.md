@@ -9,7 +9,7 @@ echo 'MACHINE_IP anonforce.thm' | sudo tee -a /etc/hosts
 
 # ⚝ Enumeration
 
-**Nmap Scan Result -** 
+`Nmap` basic enumeration:
 
 ```
 $ nmap -sCV -p- anonforce.thm
