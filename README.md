@@ -14,14 +14,12 @@
 ## 😌 Easy Machines :
 - [Anonforce](/thmLabs/Anonforce.md)
 
-
 ## Summary
 
 - [Tools](#tools)
-- [Domain_Enumeration](#domain_enumeration)
+- [Domain_Enumeration](#Domain_Enumeration)
 	- [Using-PowerView](#using-powerview)
-    - [Using-ADModule](#using-admodule)
-    - [Using_BloodHound](#using_bloodhound)
+    - [Using_ADModule](#using_admodule)
 
 ## Domain_Enumeration
 
@@ -180,7 +178,7 @@
 
 > **Priv Esc to Domain Admin with User Hunting:** I have local admin access on a machine -> A Domain Admin has a session on that machine -> I steal his token and impersonate him -> Profit!
 
-### Using-ADModule
+### Using_ADModule
 
 - **Get Current Domain:** `Get-ADDomain`
 - **Enum Other Domains:** `Get-ADDomain -Identity <Domain>`
@@ -230,24 +228,3 @@
   ```powershell
   Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   ```
-
-### Using_BloodHound
-
-#### Remote-BloodHound
-
-[Python BloodHound Repository](https://github.com/fox-it/BloodHound.py) or install it with `pip3 install bloodhound`
-
-```powershell
-bloodhound-python -u <UserName> -p <Password> -ns <Domain Controller's Ip> -d <Domain> -c All
-```
-
-#### OnSite-BloodHound
-
-```powershell
-#Using exe ingestor
-.\SharpHound.exe --CollectionMethod All --LdapUsername <UserName> --LdapPassword <Password> --domain <Domain> --domaincontroller <Domain Controller's Ip> --OutputDirectory <PathToFile>
-
-#Using PowerShell module ingestor
-. .\SharpHound.ps1
-Invoke-BloodHound -CollectionMethod All --LdapUsername <UserName> --LdapPassword <Password> --OutputDirectory <PathToFile>
-```
