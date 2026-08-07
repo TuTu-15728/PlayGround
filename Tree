@@ -1,6 +1,5 @@
 .
 ├── Assets
-│   ├── chFiles
 │   └── Images
 │       ├── anonforce.png
 │       ├── banditL0.png
@@ -100,4 +99,4 @@
 │   └── Thompson.md
 └── Tree
 
-23 directories, 78 files
+22 directories, 78 files
