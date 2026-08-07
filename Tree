@@ -1,11 +1,15 @@
 .
 ├── Assets
+│   ├── chFiles
 │   └── Images
 │       ├── anonforce.png
 │       ├── banditL0.png
 │       ├── banditL1.png
 │       ├── banditL2.png
 │       ├── bandit.png
+│       ├── HH2026-Day0-BLR.jpg
+│       ├── HH2026-Day0-thebrochure.png
+│       ├── HH2026-Day6-conversation.png
 │       ├── nahamstore.png
 │       ├── nibbles-1.png
 │       ├── nibbles-2.png
@@ -70,12 +74,23 @@
 ├── thmLabs
 │   ├── Anonforce.md
 │   ├── Anonymous.md
+│   ├── AOC2025
+│   │   ├── AdventOfCyber2025.md
+│   │   └── AdventOfCyber2025_SideQuests.md
 │   ├── Archangel.md
 │   ├── DailyBugle.md
 │   ├── Domino.md
 │   ├── EasyPeasy.md
 │   ├── FowsniffCTF.md
+│   ├── GameZone.md
+│   ├── HH2026
+│   │   ├── HackerHolidays2026.md
+│   │   └── HH2026-Day02-ExposedSourceCode
+│   │       ├── app.js
+│   │       ├── index.html
+│   │       └── README.md
 │   ├── JPGChat.md
+│   ├── Kenobi.md
 │   ├── MrRobotCTF.md
 │   ├── Mustacchio.md
 │   ├── NahamStore.md
@@ -85,4 +100,4 @@
 │   └── Thompson.md
 └── Tree
 
-19 directories, 67 files
+23 directories, 78 files
