@@ -59,6 +59,8 @@
 │   └── Sea.md
 ├── OverTheWire
 │   └── Bandit.md
+├── picoCTF
+│   └── Cryptography.md
 ├── README.md
 ├── TheHackersLabs
 │   ├── Castor.md
@@ -84,10 +86,11 @@
 │   ├── GameZone.md
 │   ├── HH2026
 │   │   ├── HackerHolidays2026.md
-│   │   └── HH2026-Day02-ExposedSourceCode
-│   │       ├── app.js
-│   │       ├── index.html
-│   │       └── README.md
+│   │   ├── HH2026-Day02-ExposedSourceCode
+│   │   │   ├── app.js
+│   │   │   ├── index.html
+│   │   │   └── README.md
+│   │   └── HH2026-Day10-zipSlip.py
 │   ├── JPGChat.md
 │   ├── Kenobi.md
 │   ├── MrRobotCTF.md
@@ -99,4 +102,4 @@
 │   └── Thompson.md
 └── Tree
 
-22 directories, 78 files
+23 directories, 80 files

