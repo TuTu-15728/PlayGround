@@ -54,6 +54,7 @@
 │               ├── latitude.txt
 │               ├── longitude.py
 │               └── README.md
+├── CryptoCracking.md
 ├── htbLabs
 │   ├── Nibbles.md
 │   └── Sea.md
@@ -102,4 +103,4 @@
 │   └── Thompson.md
 └── Tree
 
-23 directories, 80 files
+23 directories, 81 files

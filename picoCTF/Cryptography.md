@@ -426,4 +426,651 @@ picoCTF{not_too_bad_of_a_problem}
 > Download the encrypted message: [message](https://challenge-files.picoctf.net/c_plain_mesa/95b5340b7c7992206c61b8092b01ab36a563e2df91c5fb36aee43b647d720dbe/message.txt)
 > You may also find the encryption script helpful: [code](https://challenge-files.picoctf.net/c_plain_mesa/95b5340b7c7992206c61b8092b01ab36a563e2df91c5fb36aee43b647d720dbe/encryption.py)
 
+Source - 
+
+```python
+from hashlib import sha256
+import time
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+def encrypt(plaintext: str, timestamp: int) -> str:
+    timestamp = int(time.time())
+    key = sha256(str(timestamp).encode()).digest()[:16]
+    cipher = AES.new(key, AES.MODE_ECB)
+    padded = pad(plaintext.encode(), AES.block_size)
+    ciphertext = cipher.encrypt(padded)
+    return ciphertext.hex()
+
+if __name__ == "__main__":
+  
+    plaintext = "picoCTF{...}"
+    result = encrypt(plaintext, key)
+    print(f"Hint: The encryption was done around {timestamp} UTC\n")
+    print(f"Ciphertext (hex): {ciphertext.hex()}\n")
+
+```
+
+Clue - 
+
+```
+Hint: The encryption was done around 1770242606 UTC
+Ciphertext (hex): 24162f53d9b29255e635230b821cb8baca14461d54b2955401a049477e201fe9
+```
+
+Decryption - 
+
+```python
+from hashlib import sha256
+import time
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+# Given values
+timestamp = 1770242606
+ciphertext_hex = "24162f53d9b29255e635230b821cb8baca14461d54b2955401a049477e201fe9"
+
+# Step 1: Convert hex to bytes
+ciphertext = bytes.fromhex(ciphertext_hex)
+# print(ciphertext)
+
+# Step 2: Re-generate the key (same as encryption)
+key = sha256(str(timestamp).encode()).digest()[:16]
+
+# Step 3: Create AES cipher for decryption
+cipher = AES.new(key, AES.MODE_ECB)
+
+# Step 4: Decrypt
+decrypted_padded = cipher.decrypt(ciphertext)
+
+# Step 5: Remove padding
+plaintext = unpad(decrypted_padded, AES.block_size)
+
+# Step 6: Convert to string
+message = plaintext.decode('utf-8')
+print(message)
+```
+
+```
+picoCTF{sa3S_sEc9t_081e3371}
+```
+
+## Small Trouble
+
+> Everything seems secure; strong numbers, familiar parameters but something small might ruin it all. Can you recover the message?
+> Download the [message](https://challenge-files.picoctf.net/c_plain_mesa/8ed22a97d4a9277782228ea1a112e241287c34f3872ddf451445ebb690f0fe01/message.txt). And source [code](https://challenge-files.picoctf.net/c_plain_mesa/8ed22a97d4a9277782228ea1a112e241287c34f3872ddf451445ebb690f0fe01/encryption.py)
+
+Source - 
+
+```python
+from Crypto.Util.number import getPrime, inverse, bytes_to_long
+import random
+
+# Generate two large primes (1048 bits each)
+p = getPrime(1048)
+q = getPrime(1048)
+n = p * q
+phi = (p - 1) * (q - 1)
+
+# compute d
+d = getPrime(256)
+
+# Compute the public exponent
+e = inverse(d, phi)
+
+# Encrypt a flag
+flag = b'picoCTF{...}'
+m = bytes_to_long(flag)
+c = pow(m, e, n)
+
+# Output for the challenge
+with open("message.txt", "w") as f:
+    f.write(f"n = {n}\n")
+    f.write(f"e = {e}\n")
+    f.write(f"c = {c}\n")
+```
+
+Clue -
+
+```
+n = 5594693087516809540399630533662256130165069234399367321216316625813041939300993769469967603569290419832603300499594108772793414518139869665356083286669649260446980521836343923879233640062756943840931863547930310945579712973265137792295790351161076685048473027951375342321268790017586922565818383182756032674465485490251320715340411385624938864566260868602337614069898840915970814299359393740587761535848189108678205178238800280288111230994607337322709256318074861115932027677894091130507029723017060154360297187479229724325679623356440638966942954291313437552982609848032044158878674696384027496524889634696452323607191723997392473
+e = 1253741277266526276273737492341769420156287745742446683234137950307473941700753795420946118527838187324934980950852435452652395931456125106860289473635243147451566503774469323896054400225880927948949271325382686728252025525992064502049812510769890170584852893320391805480557992376841338269221082823514780592527932026224041016469532408356349643964521128610552886213674116475363116732306717431311560112424065793590597523162878957727018336437764277170504454532774662559560076329628335685182665402553483091574429654268002692354092642868885921538110973203434318377491643644652734769173448091279268078729903023902968710350828758115786949
+c = 1575773147844095818115335246981689507608786190212845187250432450517265485011147541328871869339509244543151221056093233377208864758371954434810015700305579991328875661494910208600661149362933701275626110364421427594488043068010070893043333162678431541790213846097012150446212452859725911076627073141637069389589032187813548754572797526213109169925710036206244271861122294567316906395657015977496683800227620943713798410804779020204823690850145678294088525234958290370183071276300423260384932033932245873934561990566777751374865071948145184698603999279619026875789640532470724368003682471823004876010640755680214225037847875314158626
+```
+
+Flag - 
+
+```python
+
+from Crypto.Util.number import long_to_bytes
+from owiener import attack
+
+n = 5594693087516809540399630533662256130165069234399367321216316625813041939300993769469967603569290419832603300499594108772793414518139869665356083286669649260446980521836343923879233640062756943840931863547930310945579712973265137792295790351161076685048473027951375342321268790017586922565818383182756032674465485490251320715340411385624938864566260868602337614069898840915970814299359393740587761535848189108678205178238800280288111230994607337322709256318074861115932027677894091130507029723017060154360297187479229724325679623356440638966942954291313437552982609848032044158878674696384027496524889634696452323607191723997392473
+e = 1253741277266526276273737492341769420156287745742446683234137950307473941700753795420946118527838187324934980950852435452652395931456125106860289473635243147451566503774469323896054400225880927948949271325382686728252025525992064502049812510769890170584852893320391805480557992376841338269221082823514780592527932026224041016469532408356349643964521128610552886213674116475363116732306717431311560112424065793590597523162878957727018336437764277170504454532774662559560076329628335685182665402553483091574429654268002692354092642868885921538110973203434318377491643644652734769173448091279268078729903023902968710350828758115786949
+c = 1575773147844095818115335246981689507608786190212845187250432450517265485011147541328871869339509244543151221056093233377208864758371954434810015700305579991328875661494910208600661149362933701275626110364421427594488043068010070893043333162678431541790213846097012150446212452859725911076627073141637069389589032187813548754572797526213109169925710036206244271861122294567316906395657015977496683800227620943713798410804779020204823690850145678294088525234958290370183071276300423260384932033932245873934561990566777751374865071948145184698603999279619026875789640532470724368003682471823004876010640755680214225037847875314158626
+
+
+d = attack(e, n)
+
+if d:
+    print(f"✅ Found private key d = {d}")
+    
+    # Decrypt
+    m = pow(c, d, n)
+    flag = long_to_bytes(m).decode('utf-8')
+    print(f"🏁 Flag: {flag}")
+else:
+    print("❌ Wiener's attack failed")
+```
+
+```
+picoCTF{sm4ll_d_6ea2db76}
+```
+
+## shift registers
+
+> I learned about lfsr today in school so i decided to implement it in my program. It must be safe right? [chall.py](https://challenge-files.picoctf.net/c_plain_mesa/0cd8d68d4aacefd8d1924ea6452a8727990af562d813838e2bc5b4e7a57f79f8/chall.py) [output.txt](https://challenge-files.picoctf.net/c_plain_mesa/0cd8d68d4aacefd8d1924ea6452a8727990af562d813838e2bc5b4e7a57f79f8/output.txt)
+
+Source - 
+
+```python
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+from Crypto.Random import get_random_bytes
+
+key = bytes_to_long(get_random_bytes(126))
+
+def steplfsr(lfsr):
+    b7 = (lfsr >> 7) & 1
+    b5 = (lfsr >> 5) & 1
+    b4 = (lfsr >> 4) & 1
+    b3 = (lfsr >> 3) & 1
+
+    feedback = b7 ^ b5 ^ b4 ^ b3
+    lfsr = (feedback << 7) | (lfsr >> 1)
+    return lfsr
+
+def encrypt_lfsr(pt_bytes):
+    output = bytearray()
+    lfsr = key & 0xFF
+    for p in pt_bytes:
+        lfsr = steplfsr(lfsr)
+        ks = lfsr
+        output.append(p ^ ks)
+    return bytes_to_long(bytes(output))
+
+pt = b"[redacted]"
+ct = encrypt_lfsr(pt)
+
+print(long_to_bytes(ct).hex())
+```
+
+```
+21c1b705764e4bfdafd01e0bfdbc38d5eadf92991cdd347064e37444e517d661cea9
+```
+
+Flag - 
+
+```python
+
+from Crypto.Util.number import long_to_bytes, bytes_to_long
+from owiener import attack
+
+flag_hex = "21c1b705764e4bfdafd01e0bfdbc38d5eadf92991cdd347064e37444e517d661cea9"
+flag_bytes = (bytes.fromhex(flag_hex))
+
+def steplfsr(lfsr):
+    b7 = (lfsr >> 7) & 1
+    b5 = (lfsr >> 5) & 1
+    b4 = (lfsr >> 4) & 1
+    b3 = (lfsr >> 3) & 1
+
+    feedback = b7 ^ b5 ^ b4 ^ b3
+    lfsr = (feedback << 7) | (lfsr >> 1)
+    return lfsr
+
+
+def decrypt(flag_bytes, start_lfsr):
+    lfsr = start_lfsr
+    decrypted = bytearray()
+    for c in flag_bytes:
+        lfsr = steplfsr(lfsr)
+        decrypted.append(c ^ lfsr)
+    return bytes(decrypted)
+
+for possible_key in range(256):
+	decrypted_bytes = decrypt(flag_bytes, possible_key)
+	flag = decrypted_bytes.decode('utf-8', errors='ignore')
+	
+	if "picoCTF" in flag:
+		print(flag)
+	else:
+		pass
+
+
+```
+
+```
+picoCTF{l1n3ar_f33dback_sh1ft_r3g}
+```
+
+## Related Messages
+
+> Oops! I have a typo in my first message so i sent it again! I used RSA twice so this is secure right? [chall.py](https://challenge-files.picoctf.net/c_plain_mesa/8ce9dca037e3d5ab3c3407a3ac601de62442cb7bb022f35c4e61a3ef25a6aeba/chall.py) [output.txt](https://challenge-files.picoctf.net/c_plain_mesa/8ce9dca037e3d5ab3c3407a3ac601de62442cb7bb022f35c4e61a3ef25a6aeba/output.txt)
+
+Source - 
+
+```python
+from Crypto.Util.number import getPrime, inverse, bytes_to_long, long_to_bytes, GCD
+
+Message = bytes_to_long(b"[redacted]")
+Message_fixed = bytes_to_long(b"[redacted]")
+e = 0x11
+p = getPrime(1024)
+q = getPrime(1024)
+phi = (p-1) * (q-1)
+d = inverse(e, phi)
+N = p*q
+
+ciphertext = pow(Message, e, N)
+ciphertext2 = pow(Message_fixed, e, N)
+
+print(ciphertext, ciphertext2)
+print(Message - Message_fixed)
+print(N)
+
+```
+
+```
+3486364849772584627692611749053367200656673358261596068549224442954489368512244047032432842601611650021333218776410522726164792063436874469202000304563253268152374424792827960027328885841727753251809392141585739745846369791063025294100126955644910200403110681150821499366083662061254649865214441429600114378725559898580136692467180690994656443588872905046189428367989340123522629103558929469463071363053880181844717260809141934586548192492448820075030490705363082025344843861901475648208157572346004443100461870519699021342998731173352225724445397168276113254405106732294978648428026500248591322675321980719576323749
+201982790559548563915678784397933493721879152787419243871599124287434576744055997870874349538398878336345269929647585648144070475012256331468688792105087899416655051702630953882466457932737483198442642588375981620937494661378586614008496182135571457352400128892078765628319466855732569272509655562943410536265866312968101366413636251672211633011159836642751480632253423529271185888171036917413867011031963618529122680143291205470937752671602494831117301480813590683791618751348224964277861127486155552153012612562009905595646626759034581358425916638671884927506025703373056113307665093346439014722219878575598308124
+-3
+17334845546772507565250479697360218105827285681719530148909779921509619103084219698006014339278818598859177686131922807448182102049966121282308256054696565796008642900453901629937223685292142986689576464581496406676552201407729209985216274086331582917892470955265888718120511814944341755263650688063926284195007148056359887333784052944201212155189546062807573959105963160320187551755272391293705288576724811668369745107148481856135696249862795476376097454818009481550162364943945249601744881676746859305855091288055082626399929893610275614840617858985993338556889612804266896309310999363054134373435198031731045253881
+
+```
+
+Flag - 
+
+```python
+
+from Crypto.Util.number import long_to_bytes
+import math
+
+
+def trim(poly):
+    """Remove trailing zeros from polynomial coefficients"""
+    while poly and poly[-1] == 0:
+        poly.pop()
+    return poly
+
+def poly_add(p1, p2, mod):
+    """Add two polynomials modulo mod"""
+    n = max(len(p1), len(p2))
+    res = [0] * n
+    for i in range(len(p1)):
+        res[i] = (res[i] + p1[i]) % mod
+    for i in range(len(p2)):
+        res[i] = (res[i] + p2[i]) % mod
+    return trim(res)
+
+def poly_sub(p1, p2, mod):
+    """Subtract two polynomials modulo mod"""
+    n = max(len(p1), len(p2))
+    res = [0] * n
+    for i in range(len(p1)):
+        res[i] = (res[i] + p1[i]) % mod
+    for i in range(len(p2)):
+        res[i] = (res[i] - p2[i]) % mod
+    return trim(res)
+
+def poly_mul(p1, p2, mod):
+    """Multiply two polynomials modulo mod"""
+    if not p1 or not p2:
+        return [0]
+    res = [0] * (len(p1) + len(p2) - 1)
+    for i, a in enumerate(p1):
+        if a == 0:
+            continue
+        for j, b in enumerate(p2):
+            res[i+j] = (res[i+j] + a * b) % mod
+    return trim(res)
+
+def poly_pow(poly, exp, mod):
+    """Raise polynomial to power exp modulo mod"""
+    result = [1]
+    base = poly[:]
+    while exp > 0:
+        if exp & 1:
+            result = poly_mul(result, base, mod)
+        base = poly_mul(base, base, mod)
+        exp >>= 1
+    return result
+
+def poly_divmod(p1, p2, mod):
+    """Divide p1 by p2, returns (quotient, remainder)"""
+    p1 = trim(p1[:])
+    p2 = trim(p2[:])
+    
+    if not p2:
+        raise ValueError("Division by zero polynomial")
+    
+    if len(p1) < len(p2):
+        return [0], p1
+    
+    res = [0] * (len(p1) - len(p2) + 1)
+    rem = p1[:]
+    
+    while len(rem) >= len(p2):
+        if rem[-1] == 0:
+            rem.pop()
+            continue
+        
+        # Try to invert leading coefficient
+        try:
+            inv = pow(p2[-1], -1, mod)
+        except ValueError:
+            # Not invertible - found factor of N
+            return None, None, p2[-1]
+        
+        factor = (rem[-1] * inv) % mod
+        shift = len(rem) - len(p2)
+        res[shift] = (res[shift] + factor) % mod
+        
+        for i in range(len(p2)):
+            rem[i+shift] = (rem[i+shift] - factor * p2[i]) % mod
+        
+        while rem and rem[-1] == 0:
+            rem.pop()
+    
+    return trim(res), trim(rem), None
+
+def poly_gcd(p1, p2, mod):
+    """GCD of two polynomials modulo composite N"""
+    p1 = trim(p1[:])
+    p2 = trim(p2[:])
+    
+    if not p1:
+        return p2, None
+    if not p2:
+        return p1, None
+    
+    if len(p1) < len(p2):
+        p1, p2 = p2, p1
+    
+    while p2:
+        _, rem, factor = poly_divmod(p1, p2, mod)
+        
+        if factor is not None:
+            # Found a factor of N!
+            return None, factor
+        
+        p1, p2 = p2, rem
+        p1 = trim(p1)
+        p2 = trim(p2)
+    
+    # Make monic (leading coefficient = 1)
+    if p1 and p1[-1] != 1:
+        try:
+            inv = pow(p1[-1], -1, mod)
+            p1 = [(c * inv) % mod for c in p1]
+        except ValueError:
+            # Leading coefficient not invertible - found factor
+            return None, p1[-1]
+    
+    return p1, None
+
+def build_x_power(e, c, N):
+    """Build polynomial x^e - c"""
+    poly = [0] * (e + 1)
+    poly[e] = 1
+    poly[0] = (-c) % N
+    return trim(poly)
+
+def build_x_plus_diff_power(diff, e, c, N):
+    """Build polynomial (x + diff)^e - c"""
+    # Start with 1
+    poly = [1]
+    
+    # Multiply by (x + diff) e times
+    for _ in range(e):
+        new = [0] * (len(poly) + 1)
+        for i, coef in enumerate(poly):
+            new[i] = (new[i] + coef * diff) % N
+            new[i+1] = (new[i+1] + coef) % N
+        poly = trim(new)
+    
+    # Subtract c from constant term
+    poly[0] = (poly[0] - c) % N
+    return trim(poly)
+
+def franklin_reiter_attack(c1, c2, e, N, diff):
+    """
+    Franklin-Reiter Related Message Attack
+    
+    Given:
+        c1 = m1^e mod N
+        c2 = m2^e mod N
+        m1 = m2 + diff
+    
+    Returns:
+        (m1, m2) as integers, or (None, factor) if N was factored
+    """
+    print("[*] Building polynomials...")
+    print(f"    f1(x) = x^{e} - c1")
+    print(f"    f2(x) = (x + {diff})^{e} - c2")
+    
+    f1 = build_x_power(e, c1, N)          # x^e - c1
+    f2 = build_x_plus_diff_power(diff, e, c2, N)  # (x+diff)^e - c2
+    
+    print(f"[*] f1 degree: {len(f1)-1}")
+    print(f"[*] f2 degree: {len(f2)-1}")
+    
+    print("[*] Computing GCD...")
+    g, factor = poly_gcd(f1, f2, N)
+    
+    if factor is not None:
+        print(f"[!] Found factor of N: {factor}")
+        return None, None, factor
+    
+    if not g:
+        print("[*] GCD is empty - attack failed")
+        return None, None, None
+    
+    if len(g) == 1:
+        print("[*] GCD is constant - attack failed")
+        return None, None, None
+    
+    print(f"[*] GCD degree: {len(g)-1}")
+    
+    if len(g) == 2:
+        # g = x + b (since monic)
+        # root = -b
+        b = g[0]
+        m2 = (-b) % N
+        m1 = (m2 + diff) % N
+        return m1, m2, None
+    
+    print("[*] GCD degree > 1 - unexpected")
+    return None, None, None
+
+def main():
+	N = 17334845546772507565250479697360218105827285681719530148909779921509619103084219698006014339278818598859177686131922807448182102049966121282308256054696565796008642900453901629937223685292142986689576464581496406676552201407729209985216274086331582917892470955265888718120511814944341755263650688063926284195007148056359887333784052944201212155189546062807573959105963160320187551755272391293705288576724811668369745107148481856135696249862795476376097454818009481550162364943945249601744881676746859305855091288055082626399929893610275614840617858985993338556889612804266896309310999363054134373435198031731045253881
+	ciphertext = 3486364849772584627692611749053367200656673358261596068549224442954489368512244047032432842601611650021333218776410522726164792063436874469202000304563253268152374424792827960027328885841727753251809392141585739745846369791063025294100126955644910200403110681150821499366083662061254649865214441429600114378725559898580136692467180690994656443588872905046189428367989340123522629103558929469463071363053880181844717260809141934586548192492448820075030490705363082025344843861901475648208157572346004443100461870519699021342998731173352225724445397168276113254405106732294978648428026500248591322675321980719576323749
+	ciphertext2 = 201982790559548563915678784397933493721879152787419243871599124287434576744055997870874349538398878336345269929647585648144070475012256331468688792105087899416655051702630953882466457932737483198442642588375981620937494661378586614008496182135571457352400128892078765628319466855732569272509655562943410536265866312968101366413636251672211633011159836642751480632253423529271185888171036917413867011031963618529122680143291205470937752671602494831117301480813590683791618751348224964277861127486155552153012612562009905595646626759034581358425916638671884927506025703373056113307665093346439014722219878575598308124
+
+	e = 17
+	c1 = ciphertext
+	c2 = ciphertext2
+	diff = 3
+
+	print("="*60)
+	print("Franklin-Reiter Related Message Attack")
+	print("="*60)
+	print(f"N = {N}")
+	print(f"e = {e}")
+	print(f"c1 = {c1}")
+	print(f"c2 = {c2}")
+	print(f"diff = {diff}")
+	print()
+    
+	m1, m2, factor = franklin_reiter_attack(c1, c2, e, N, diff)
+    
+	if factor is not None:
+			print("\n" + "="*60)
+			print("✓ FOUND FACTOR OF N!")
+			print("="*60)
+			q = N // factor
+			print(f"p = {factor}")
+			print(f"q = {q}")
+
+			# Compute private key and decrypt
+			phi = (factor - 1) * (q - 1)
+			d = pow(e, -1, phi)
+
+			m1 = pow(c1, d, N)
+			m2 = pow(c2, d, N)
+
+			print(f"\nRecovered m1 = {m1}")
+			print(f"Recovered m2 = {m2}")
+
+			flag1 = long_to_bytes(m1)
+			flag2 = long_to_bytes(m2)
+
+			print(f"\nFlag 1: {flag1}")
+			print(f"Flag 2: {flag2}")
+
+			try:
+				print(f"\nFlag 1 text: {flag1.decode('utf-8')}")
+				print(f"Flag 2 text: {flag2.decode('utf-8')}")
+			except:
+				print(f"\nFlag 1 hex: {flag1.hex()}")
+				print(f"Flag 2 hex: {flag2.hex()}")
+
+	elif m1 is not None and m2 is not None:
+		print("\n" + "="*60)
+		print("✓✓✓ ATTACK SUCCESSFUL! ✓✓✓")
+		print("="*60)
+		print(f"m1 = {m1}")
+		print(f"m2 = {m2}")
+		print(f"diff = {m1 - m2} (should be {diff})")
+
+		flag1 = long_to_bytes(m1)
+		flag2 = long_to_bytes(m2)
+
+		print(f"\nFlag 1 (M1): {flag1}")
+		print(f"Flag 2 (M2): {flag2}")
+
+		try:
+			print(f"\nFlag 1 text: {flag1.decode('utf-8')}")
+			print(f"Flag 2 text: {flag2.decode('utf-8')}")
+		except:
+			print(f"\nFlag 1 hex: {flag1.hex()}")
+			print(f"Flag 2 hex: {flag2.hex()}")
+
+	else:
+		print("\n" + "="*60)
+		print("✗ ATTACK FAILED")
+		print("="*60)
+		print("Try these options:")
+		print("1. Check if diff is correct")
+		print("2. Verify c1 and c2 are correct")
+		print("3. Use SageMath instead (it handles this better)")
+
+if __name__ == "__main__":
+    main()
+```
+
+Core - 
+
+```python
+# ============================================================
+# MAIN
+# ============================================================
+
+
+from Crypto.Util.number import long_to_bytes
+
+def trim(p): return p[:-1] if p and p[-1] == 0 else p
+
+def divmod_poly(p1, p2, mod):
+    p1, p2 = trim(p1[:]), trim(p2[:])
+    if len(p1) < len(p2): return [0], p1, None
+    q, r = [0]*(len(p1)-len(p2)+1), p1[:]
+    while len(r) >= len(p2):
+        if r[-1] == 0: r.pop(); continue
+        try: inv = pow(p2[-1], -1, mod)
+        except ValueError: return None, None, p2[-1]
+        factor = (r[-1] * inv) % mod
+        shift = len(r) - len(p2)
+        q[shift] = (q[shift] + factor) % mod
+        for i in range(len(p2)):
+            r[i+shift] = (r[i+shift] - factor * p2[i]) % mod
+        while r and r[-1] == 0: r.pop()
+    return trim(q), trim(r), None
+
+def gcd_poly(p1, p2, mod):
+    p1, p2 = trim(p1[:]), trim(p2[:])
+    if not p1: return p2, None
+    if not p2: return p1, None
+    if len(p1) < len(p2): p1, p2 = p2, p1
+    while p2:
+        _, rem, factor = divmod_poly(p1, p2, mod)
+        if factor: return None, factor
+        p1, p2 = p2, rem
+        p1, p2 = trim(p1) if p1 else [], trim(p2) if p2 else []
+    if p1 and p1[-1] != 1:
+        try:
+            inv = pow(p1[-1], -1, mod)
+            p1 = [(c * inv) % mod for c in p1]
+        except ValueError:
+            return None, p1[-1]
+    return p1, None
+
+# f(x) = x^e - c
+def f_x(e, c, N):
+    poly = [0]*(e+1); poly[e] = 1; poly[0] = (-c) % N; return trim(poly)
+
+# f(x) = (x + d)^e - c
+def f_xd(d, e, c, N):
+    poly = [1]
+    for _ in range(e):
+        new = [0]*(len(poly)+1)
+        for i, coef in enumerate(poly):
+            new[i] = (new[i] + coef*d) % N
+            new[i+1] = (new[i+1] + coef) % N
+        poly = new
+    poly[0] = (poly[0] - c) % N
+    return trim(poly)
+
+# ===== YOUR VALUES =====
+N = 17334845546772507565250479697360218105827285681719530148909779921509619103084219698006014339278818598859177686131922807448182102049966121282308256054696565796008642900453901629937223685292142986689576464581496406676552201407729209985216274086331582917892470955265888718120511814944341755263650688063926284195007148056359887333784052944201212155189546062807573959105963160320187551755272391293705288576724811668369745107148481856135696249862795476376097454818009481550162364943945249601744881676746859305855091288055082626399929893610275614840617858985993338556889612804266896309310999363054134373435198031731045253881
+ciphertext = 3486364849772584627692611749053367200656673358261596068549224442954489368512244047032432842601611650021333218776410522726164792063436874469202000304563253268152374424792827960027328885841727753251809392141585739745846369791063025294100126955644910200403110681150821499366083662061254649865214441429600114378725559898580136692467180690994656443588872905046189428367989340123522629103558929469463071363053880181844717260809141934586548192492448820075030490705363082025344843861901475648208157572346004443100461870519699021342998731173352225724445397168276113254405106732294978648428026500248591322675321980719576323749
+ciphertext2 = 201982790559548563915678784397933493721879152787419243871599124287434576744055997870874349538398878336345269929647585648144070475012256331468688792105087899416655051702630953882466457932737483198442642588375981620937494661378586614008496182135571457352400128892078765628319466855732569272509655562943410536265866312968101366413636251672211633011159836642751480632253423529271185888171036917413867011031963618529122680143291205470937752671602494831117301480813590683791618751348224964277861127486155552153012612562009905595646626759034581358425916638671884927506025703373056113307665093346439014722219878575598308124
+
+e = 17
+c1 = ciphertext
+c2 = ciphertext2
+diff = 3
+
+# f1 = x^e - c1, f2 = (x+diff)^e - c2
+# Both share root x = m2, so gcd(f1, f2) = x - m2
+f1 = f_x(e, c1, N)
+f2 = f_xd(diff, e, c2, N)
+
+g, factor = gcd_poly(f1, f2, N)
+
+if factor:
+    # Found factor of N, decrypt directly
+    q = N // factor
+    phi = (factor - 1) * (q - 1)
+    d = pow(e, -1, phi)
+    m1 = pow(c1, d, N)
+    m2 = pow(c2, d, N)
+else:
+    # g = x - m2 (monic), so m2 = -g[0]
+    m2 = (-g[0]) % N
+    m1 = (m2 + diff) % N
+
+print("M1:", long_to_bytes(m1))
+print("M2:", long_to_bytes(m2))
+```
 
