@@ -61,7 +61,8 @@
 ├── OverTheWire
 │   └── Bandit.md
 ├── picoCTF
-│   └── Cryptography.md
+│   ├── Cryptography.md
+│   └── GeneralSkills.md
 ├── README.md
 ├── TheHackersLabs
 │   ├── Castor.md
@@ -103,4 +104,4 @@
 │   └── Thompson.md
 └── Tree
 
-23 directories, 81 files
+23 directories, 82 files
