@@ -62,6 +62,7 @@
 │   └── Bandit.md
 ├── picoCTF
 │   ├── Cryptography.md
+│   ├── Forensics.md
 │   └── GeneralSkills.md
 ├── README.md
 ├── TheHackersLabs
@@ -104,4 +105,4 @@
 │   └── Thompson.md
 └── Tree
 
-23 directories, 82 files
+23 directories, 83 files
