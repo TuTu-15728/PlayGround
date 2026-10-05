@@ -32,6 +32,13 @@
 │       ├── sea-8.png
 │       ├── sea-9.png
 │       └── sea.png
+├── awesome-codes
+│   ├── alphaROT.py
+│   ├── genmon.sh
+│   ├── graph_tree.js
+│   ├── local_github_updater.sh
+│   ├── look_and_say_1.py
+│   └── look_and_say.py
 ├── BlueTeamLabs
 │   ├── DigitalForensics
 │   │   └── Meta
@@ -66,6 +73,26 @@
 │   ├── GeneralSkills.md
 │   ├── ReverseEngineering.md
 │   └── WebExploitation.md
+├── pyChallenges
+│   └── python-challenge-riddles
+│       ├── ch10.py
+│       ├── ch11.py
+│       ├── ch12.py
+│       ├── ch13_draft.py
+│       ├── ch14.py
+│       ├── ch15.py
+│       ├── ch16.py
+│       ├── ch17.py
+│       ├── ch18_draft.py
+│       ├── ch19.py
+│       ├── ch20.py
+│       ├── ch3.py
+│       ├── ch4.py
+│       ├── ch5.py
+│       ├── ch6.py
+│       ├── ch7.py
+│       ├── ch8.py
+│       └── ch9.py
 ├── README.md
 ├── TheHackersLabs
 │   ├── Castor.md
@@ -107,4 +134,4 @@
 │   └── Thompson.md
 └── Tree
 
-23 directories, 85 files
+26 directories, 109 files
