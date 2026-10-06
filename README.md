@@ -1,5 +1,9 @@
-#        👨🏻‍💻 Sam's Play Ground 👨🏻‍💻
+<div align="center">
 
+<h1>👨🏻‍💻 Sam's Play Ground 👨🏻‍💻</h1>
+<h6>⚠️ FOR EDUCATIONAL PURPOSES ONLY ⚠️</h6>
+
+</div>
 
 # 📜 Hack The Box
 

@@ -172,7 +172,7 @@ Ref:
 | `find /path/to/search -type f -mtime -1` |   Find files modified less than 1 day ago    |
 |      `find /path/to/search -type d`      |      Find directories instead of files       |
 
-👉 **The `locate` command -
+👉 **The `locate` command -**
 
 |              Command              |                       Effect                       |
 | :-------------------------------: | :------------------------------------------------: |
@@ -183,7 +183,7 @@ Ref:
 |            `updatedb`             |     Updates the file database used by `locate`     |
 | `locate --exclude [path] "*.ext"` |     Excludes specific directories from search      |
 
-👉 **The `grep` command -
+👉 **The `grep` command -**
 
 |                   Command                   |                                                     Effect                                                     |
 | :-----------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
@@ -248,7 +248,7 @@ Ref:
 
 ### 🟡 1.7 Text Processing (tr, sed, awk, cut, sort, uniq, comm, diff, patch, pr)
 
-👉 **The `tr` command -
+👉 **The `tr` command -**
 
 |           Command            |                        Effect                        |
 | :--------------------------: | :--------------------------------------------------: |
@@ -274,7 +274,7 @@ Ref:
 |   `sed 's/[0-9]//g' file.txt`   |             Remove all digits from the file             |
 |   `sed 's/.*/[&]/' file.txt`    |            Wrap each line in square brackets            |
 
-👉 **The `cut` command -
+👉 **The `cut` command -**
 
 |                        Command                         |                    Effect                     |
 | :----------------------------------------------------: | :-------------------------------------------: |
@@ -345,7 +345,7 @@ Ref:
 |    `tar -rvf archive.tar file3`     |     Appends files to an existing archive      |
 | `tar --delete -f archive.tar file1` |    Deletes specific files from the archive    |
 
-👉 **The `gzip` command -
+👉 **The `gzip` command -**
 
 |             Command              |                            Effect                            |
 | :------------------------------: | :----------------------------------------------------------: |
