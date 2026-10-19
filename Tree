@@ -32,13 +32,6 @@
 │       ├── sea-8.png
 │       ├── sea-9.png
 │       └── sea.png
-├── awesome-codes
-│   ├── alphaROT.py
-│   ├── genmon.sh
-│   ├── graph_tree.js
-│   ├── local_github_updater.sh
-│   ├── look_and_say_1.py
-│   └── look_and_say.py
 ├── BlueTeamLabs
 │   ├── DigitalForensics
 │   │   └── Meta
@@ -62,7 +55,6 @@
 │               ├── longitude.py
 │               └── README.md
 ├── CheatSheet.md
-├── CryptoCracking.md
 ├── htbLabs
 │   ├── Nibbles.md
 │   └── Sea.md
@@ -135,4 +127,4 @@
 │   └── Thompson.md
 └── Tree
 
-26 directories, 110 files
+25 directories, 103 files
