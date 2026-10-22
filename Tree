@@ -58,6 +58,10 @@
 ├── htbLabs
 │   ├── Nibbles.md
 │   └── Sea.md
+├── oscpLabs
+│   ├── Amaterasu.md
+│   ├── ColdBoxEasy.md
+│   └── DriftingBlues6.md
 ├── OverTheWire
 │   └── Bandit.md
 ├── picoCTF
@@ -87,6 +91,9 @@
 │       ├── ch8.py
 │       └── ch9.py
 ├── README.md
+├── templates
+│   ├── Template_1.md
+│   └── Template_2.md
 ├── TheHackersLabs
 │   ├── Castor.md
 │   ├── Fruits.md
@@ -127,4 +134,4 @@
 │   └── Thompson.md
 └── Tree
 
-25 directories, 103 files
+27 directories, 108 files
